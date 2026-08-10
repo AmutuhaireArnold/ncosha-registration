@@ -453,8 +453,8 @@
         </select>
       </div>
       <div class="field">
-        <label for="filePhoto">Passport-size photograph</label>
-        <input type="file" id="filePhoto" name="Passport Photo" accept=".jpg,.jpeg,.png">
+        <label for="filePhoto">Passport-size photograph<span class="req">*</span></label>
+        <input type="file" id="filePhoto" name="Passport Photo" accept=".jpg,.jpeg,.png" required>
       </div>
     </fieldset>
 
@@ -508,16 +508,12 @@
         <input type="text" id="profQuals" name="Professional Qualifications">
       </div>
       <div class="field">
-        <label for="certs">Relevant certifications <span class="opt">Optional</span></label>
-        <input type="text" id="certs" name="Relevant Certifications">
-      </div>
-      <div class="field">
-        <label for="fileCerts">Academic certificates</label>
-        <input type="file" id="fileCerts" name="Academic Certificates" accept=".pdf,.jpg,.jpeg,.png">
+        <label for="fileCerts">Academic certificates<span class="req">*</span></label>
+        <input type="file" id="fileCerts" name="Academic Certificates" accept=".pdf,.jpg,.jpeg,.png" required>
       </div>
     </fieldset>
 
-    <fieldset id="employmentSection">
+    <fieldset id="employmentSection" class="conditional">
       <legend><span class="num">5</span>Employment / Organization Details</legend>
       <p class="section-hint">Employees only — students can skip this whole section.</p>
       <div class="grid-2">
@@ -583,10 +579,8 @@
 
       <div class="conditional" id="onlineBooking">
         <div class="field">
-          <label for="bookingAck">Book your physical appointment</label>
-          <p class="hint">Online learners still attend practical/field sessions in person. Use the button below to pick a date and time at the NCOSHA Head Office — you can reschedule at any time, and your confirmation is sent to your email and WhatsApp.</p>
-          <a href="#" id="bookingLink" target="_blank" rel="noopener" style="display:inline-block;margin-top:6px;padding:9px 14px;background:var(--navy);color:#fff;border-radius:7px;font-size:13px;text-decoration:none;font-weight:600;">Open appointment booking →</a>
-          <p class="hint" id="bookingLinkNote">Booking link not configured yet — see instructions in index.html.</p>
+          <label>Online cohort</label>
+          <p class="hint">You'll receive the lecture link by email and WhatsApp closer to the start date — no appointment booking needed for online learners.</p>
         </div>
       </div>
     </fieldset>
@@ -598,8 +592,8 @@
         <textarea id="whyInterest" name="Why Interested" required></textarea>
       </div>
       <div class="field">
-        <label for="howHeard">How did you hear about this training? <span class="opt">Optional</span></label>
-        <select id="howHeard" name="How Heard" data-toggle="heard">
+        <label for="howHeard">How did you hear about this training?<span class="req">*</span></label>
+        <select id="howHeard" name="How Heard" data-toggle="heard" required>
           <option value="">Select one</option>
           <option>School</option>
           <option>Friends / family</option>
@@ -611,7 +605,7 @@
           <option>Employer / organization</option>
           <option>Flyer / brochure</option>
           <option>Training event / conference / exhibition</option>
-          <option>Referral from another organization</option>
+          <option>Referral</option>
           <option>Others</option>
         </select>
       </div>
@@ -629,8 +623,8 @@
       </div>
       <div class="conditional" id="heardReferral">
         <div class="field">
-          <label for="heardReferralDetail">Referring organization</label>
-          <input type="text" id="heardReferralDetail" name="How Heard — Referring Organization">
+          <label for="heardReferralDetail">Who referred you? <span class="opt">Optional</span></label>
+          <input type="text" id="heardReferralDetail" name="How Heard — Referred By">
         </div>
       </div>
       <div class="conditional" id="heardOther">
@@ -651,14 +645,6 @@
 
     <fieldset>
       <legend><span class="num">9</span>Special Requirements</legend>
-      <div class="field">
-        <label for="dietary">Dietary requirements <span class="opt">If attending in person</span></label>
-        <input type="text" id="dietary" name="Dietary Requirements">
-      </div>
-      <div class="field">
-        <label for="accessibility">Accessibility needs</label>
-        <input type="text" id="accessibility" name="Accessibility Needs">
-      </div>
       <div class="field">
         <label for="medical">Medical considerations <span class="opt">Optional</span></label>
         <input type="text" id="medical" name="Medical Considerations">
@@ -688,9 +674,9 @@
       <div class="field">
         <label>Payment method<span class="req">*</span></label>
         <div class="choice-row">
-          <label class="choice"><input type="radio" name="Payment Method" value="Mobile Money" required>Mobile Money</label>
-          <label class="choice"><input type="radio" name="Payment Method" value="Bank Transfer" required>Bank Transfer</label>
-          <label class="choice"><input type="radio" name="Payment Method" value="Cash" required>Cash</label>
+          <label class="choice"><input type="radio" name="Payment Method" value="Mobile Money" required data-toggle="method">Mobile Money</label>
+          <label class="choice"><input type="radio" name="Payment Method" value="Bank Transfer" required data-toggle="method">Bank Transfer</label>
+          <label class="choice"><input type="radio" name="Payment Method" value="Cash" required data-toggle="method">Cash</label>
         </div>
         <p class="hint">Mobile Money — MTN Merchant Code: 748934 | Airtel Merchant Code: 4395920<br>Bank Transfer — Diamond Trust Bank, NCOSHA U LTD (UGX: 0090152001 | USD: 0090152002)<br>Cash — At NCOSHA Head Quarters. Received by Daisy Ahebwa (077 521 1856).</p>
       </div>
@@ -710,7 +696,7 @@
       </div>
       <div class="conditional" id="otNumberField">
         <div class="field">
-          <label for="otNumber">Transaction / OT number</label>
+          <label for="otNumber">Transaction / OT number <span class="opt">Mobile Money or Bank Transfer</span></label>
           <input type="text" id="otNumber" name="OT Number" placeholder="e.g. Mobile Money or bank transaction reference">
         </div>
       </div>
@@ -727,6 +713,9 @@
 
       <div style="height:14px;"></div>
       <label class="agree"><input type="checkbox" name="Data Privacy Consent" value="Yes" required>I consent to the collection and processing of my personal data for course administration, certification, and communication.<span class="req">*</span></label>
+
+      <div style="height:14px;"></div>
+      <label class="agree"><input type="checkbox" name="Publicity Consent" value="Yes">I consent that NCOSHA uses my information for publicity.</label>
 
       <div style="height:16px;"></div>
       <label style="font-weight:700;color:var(--navy);font-size:13.5px;">Communication preferences</label>
@@ -781,7 +770,7 @@
       regenerated to point at it.
 ------------------------------------------------ */
 const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycby7R_lsj1yUrE9POXUD-eAxNBbG6OIiXMLbY08tOmVYp0PgWqea73gwVp2mTsEe0TNw/exec";  // e.g. "https://script.google.com/macros/s/AKfycb.../exec"
-const BOOKING_LINK_URL = "";  // e.g. "https://calendly.com/ncosha/physical-session"
+const BOOKING_LINK_URL = "";  // no longer used — online cohort now just gets the lecture link by email/WhatsApp instead of a booking flow
 
 // Pre-amble welcome screen
 const preamble = document.getElementById('preamble');
@@ -791,15 +780,6 @@ startFormBtn.addEventListener('click', () => {
   document.body.classList.remove('preamble-active');
   window.scrollTo({ top: 0 });
 });
-
-const bookingLink = document.getElementById('bookingLink');
-const bookingNote = document.getElementById('bookingLinkNote');
-if (BOOKING_LINK_URL) {
-  bookingLink.href = BOOKING_LINK_URL;
-  bookingNote.style.display = 'none';
-} else {
-  bookingLink.addEventListener('click', e => e.preventDefault());
-}
 
 if (!GAS_WEB_APP_URL) {
   console.warn('NCOSHA form: set GAS_WEB_APP_URL before going live — see Code.gs for setup steps.');
@@ -829,10 +809,19 @@ document.querySelectorAll('input[data-toggle="mode"]').forEach(r => {
     document.getElementById('onlineBooking').classList.toggle('show', r.value === 'Online' && r.checked);
   });
 });
+function updateOtNumberVisibility() {
+  const method = document.querySelector('input[name="Payment Method"]:checked');
+  const status = document.querySelector('input[name="Payment Status"]:checked');
+  const show = !!status && status.value !== 'Not Yet Paid' && !!method && method.value !== 'Cash';
+  document.getElementById('otNumberField').classList.toggle('show', show);
+}
+document.querySelectorAll('input[data-toggle="method"]').forEach(r => {
+  r.addEventListener('change', updateOtNumberVisibility);
+});
 document.querySelectorAll('input[data-toggle="payment"]').forEach(r => {
   r.addEventListener('change', () => {
     document.getElementById('partialAmount').classList.toggle('show', r.value === 'Partially Paid' && r.checked);
-    document.getElementById('otNumberField').classList.toggle('show', r.value !== 'Not Yet Paid' && r.checked);
+    updateOtNumberVisibility();
   });
 });
 
@@ -840,7 +829,7 @@ document.querySelectorAll('input[data-toggle="payment"]').forEach(r => {
 const heardMap = {
   'Alumni': 'heardAlumni',
   'Training event / conference / exhibition': 'heardEvent',
-  'Referral from another organization': 'heardReferral',
+  'Referral': 'heardReferral',
   'Others': 'heardOther'
 };
 document.getElementById('howHeard').addEventListener('change', (e) => {

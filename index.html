@@ -284,6 +284,60 @@
   @keyframes slideDown { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
   .conditional.show { display: block; }
 
+  /* --- Employment Details popup --- */
+  .modal-overlay {
+    display: none;
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(10,30,20,.55);
+    align-items: center; justify-content: center;
+    padding: 20px;
+    backdrop-filter: blur(2px);
+  }
+  .modal-overlay.show { display: flex; animation: fadeIn 0.25s ease; }
+  .modal-card {
+    position: relative;
+    background: var(--card);
+    border-radius: 16px;
+    max-width: 520px; width: 100%;
+    max-height: 90vh; overflow-y: auto;
+    padding: 28px 26px 26px;
+    box-shadow: var(--shadow-hover);
+    animation: cardIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+  }
+  .modal-card h3 { color: var(--navy); font-size: 17px; margin-bottom: 4px; }
+  .modal-card .modal-sub { font-size: 13px; color: var(--muted); margin: 0 0 20px; line-height: 1.5; }
+  .modal-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
+  .modal-actions .btn-save {
+    border: none; border-radius: 10px; padding: 11px 22px;
+    font-size: 14px; font-weight: 700; cursor: pointer;
+    background: var(--safety); color: #fff;
+    transition: var(--transition);
+  }
+  .modal-actions .btn-save:hover { background: var(--safety-2); }
+  .link-btn {
+    background: none; border: none; padding: 0; margin: 0;
+    color: var(--safety-2); font-weight: 600; font-size: inherit;
+    text-decoration: underline; cursor: pointer; font-family: inherit;
+  }
+  .link-btn:hover { color: var(--navy); }
+
+  /* --- Full Terms & Conditions popup --- */
+  .modal-card-wide { max-width: 700px; }
+  .terms-meta { font-size: 12px; color: var(--muted); margin: -8px 0 16px; }
+  .terms-scroll {
+    max-height: 55vh; overflow-y: auto;
+    border: 1px solid var(--line); border-radius: 10px;
+    padding: 16px 20px; margin-bottom: 18px;
+    background: #FDFDFC; font-size: 13px; line-height: 1.65; color: var(--ink);
+  }
+  .terms-scroll h4 { color: var(--navy); font-size: 13.5px; margin: 18px 0 6px; }
+  .terms-scroll h4:first-child { margin-top: 0; }
+  .terms-scroll p { margin: 0 0 10px; }
+  .terms-scroll ul { margin: 6px 0 12px; padding-left: 20px; }
+  .terms-scroll li { margin-bottom: 5px; }
+  .terms-scroll .terms-intro { font-size: 12.5px; color: var(--muted); }
+  .terms-scroll .terms-contact { margin-top: 18px; padding-top: 12px; border-top: 1px dashed var(--line); font-size: 12px; color: var(--muted); }
+
   .declaration {
     background: #F8F6F0;
     border: 1px dashed #C9A45A;
@@ -431,7 +485,7 @@
 
 <main>
   <div class="progress-track">
-    <div class="label"><span id="progLabel">Section 1 of 12</span><span id="progPct">0%</span></div>
+    <div class="label"><span id="progLabel">Section 1 of 11</span><span id="progPct">0%</span></div>
     <div class="bar"><i id="progBar"></i></div>
   </div>
 
@@ -442,7 +496,7 @@
       <legend><span class="num">1</span>Personal Information</legend>
       <div class="field">
         <label for="fullName">Full name — as it should appear on the certificate<span class="req">*</span></label>
-        <input type="text" id="fullName" name="Full Name" placeholder="Enter your full name" autocomplete="name" required>
+        <input type="text" id="fullName" name="Full Name" placeholder="Enter your full name" autocomplete="off" required>
       </div>
       <div class="field">
         <label for="gender">Gender<span class="req">*</span></label>
@@ -462,16 +516,16 @@
       <legend><span class="num">2</span>Contact Information</legend>
       <div class="field">
         <label for="email">Email address<span class="req">*</span></label>
-        <input type="email" id="email" name="Email Address" required>
+        <input type="email" id="email" name="Email Address" autocomplete="off" required>
       </div>
       <div class="grid-2">
         <div class="field">
           <label for="phone">Phone number<span class="req">*</span></label>
-          <input type="tel" id="phone" name="Phone Number" placeholder="Preferably WhatsApp-enabled" required>
+          <input type="tel" id="phone" name="Phone Number" placeholder="Preferably WhatsApp-enabled" autocomplete="off" required>
         </div>
         <div class="field">
           <label for="altPhone">Alternative phone <span class="opt">Optional</span></label>
-          <input type="tel" id="altPhone" name="Alternative Phone Number">
+          <input type="tel" id="altPhone" name="Alternative Phone Number" autocomplete="off">
         </div>
       </div>
     </fieldset>
@@ -513,41 +567,46 @@
       </div>
     </fieldset>
 
-    <fieldset id="employmentSection" class="conditional">
-      <legend><span class="num">5</span>Employment / Organization Details</legend>
-      <p class="section-hint">Employees only — students can skip this whole section.</p>
-      <div class="grid-2">
-        <div class="field">
-          <label for="employer">Current employer / organization</label>
-          <input type="text" id="employer" name="Employer / Organization">
+    <div class="modal-overlay" id="employmentModalOverlay" role="dialog" aria-modal="true" aria-labelledby="employmentModalTitle">
+      <div class="modal-card">
+        <h3 id="employmentModalTitle">Employment / Organization Details</h3>
+        <p class="modal-sub">Since you're registering as an employee, tell us a bit about your workplace.</p>
+        <div class="grid-2">
+          <div class="field">
+            <label for="employer">Current employer / organization</label>
+            <input type="text" id="employer" name="Employer / Organization">
+          </div>
+          <div class="field">
+            <label for="department">Department</label>
+            <input type="text" id="department" name="Department" autocomplete="off">
+          </div>
+        </div>
+        <div class="grid-2">
+          <div class="field">
+            <label for="jobTitle">Job title / position</label>
+            <input type="text" id="jobTitle" name="Job Title">
+          </div>
+          <div class="field">
+            <label for="industry">Industry / sector</label>
+            <input type="text" id="industry" name="Industry / Sector">
+          </div>
         </div>
         <div class="field">
-          <label for="department">Department</label>
-          <input type="text" id="department" name="Department" autocomplete="off">
-        </div>
-      </div>
-      <div class="grid-2">
-        <div class="field">
-          <label for="jobTitle">Job title / position</label>
-          <input type="text" id="jobTitle" name="Job Title">
+          <label for="experience">Years of work experience</label>
+          <input type="number" id="experience" name="Years of Experience" min="0" max="60">
         </div>
         <div class="field">
-          <label for="industry">Industry / sector</label>
-          <input type="text" id="industry" name="Industry / Sector">
+          <label for="fileRec">Employer recommendation letter <span class="opt">If applicable</span></label>
+          <input type="file" id="fileRec" name="Recommendation Letter" accept=".pdf">
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-save" id="employmentModalDone">Save &amp; continue</button>
         </div>
       </div>
-      <div class="field">
-        <label for="experience">Years of work experience</label>
-        <input type="number" id="experience" name="Years of Experience" min="0" max="60">
-      </div>
-      <div class="field">
-        <label for="fileRec">Employer recommendation letter <span class="opt">If applicable</span></label>
-        <input type="file" id="fileRec" name="Recommendation Letter" accept=".pdf">
-      </div>
-    </fieldset>
+    </div>
 
     <fieldset>
-      <legend><span class="num">6</span>Course Selection</legend>
+      <legend><span class="num">5</span>Course Selection</legend>
       <div class="field">
         <label for="quarter">Preferred quarter intake<span class="req">*</span></label>
         <select id="quarter" name="Preferred Quarter Intake" required>
@@ -580,13 +639,13 @@
       <div class="conditional" id="onlineBooking">
         <div class="field">
           <label>Online cohort</label>
-          <p class="hint">You'll receive the lecture link by email and WhatsApp closer to the start date — no appointment booking needed for online learners.</p>
+          <p class="hint">You'll receive the lecture link by email and WhatsApp closer to the start date.</p>
         </div>
       </div>
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">7</span>Learning Objectives</legend>
+      <legend><span class="num">6</span>Learning Objectives</legend>
       <div class="field">
         <label for="whyInterest">Why are you interested in this course?<span class="req">*</span></label>
         <textarea id="whyInterest" name="Why Interested" required></textarea>
@@ -608,6 +667,12 @@
           <option>Referral</option>
           <option>Others</option>
         </select>
+      </div>
+      <div class="conditional" id="heardSchool">
+        <div class="field">
+          <label for="heardSchoolDetail">Name of school</label>
+          <input type="text" id="heardSchoolDetail" name="How Heard — School Name" autocomplete="off">
+        </div>
       </div>
       <div class="conditional" id="heardAlumni">
         <div class="field">
@@ -636,7 +701,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">8</span>Course Expectations</legend>
+      <legend><span class="num">7</span>Course Expectations</legend>
       <div class="field">
         <label for="expectations">What do you expect to learn or gain from this course?<span class="req">*</span></label>
         <textarea id="expectations" name="Expectations" required></textarea>
@@ -644,7 +709,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">9</span>Special Requirements</legend>
+      <legend><span class="num">8</span>Special Requirements</legend>
       <div class="field">
         <label for="medical">Medical considerations <span class="opt">Optional</span></label>
         <input type="text" id="medical" name="Medical Considerations">
@@ -652,25 +717,25 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">10</span>Emergency Contact <span class="opt" style="font-weight:400;">Optional</span></legend>
+      <legend><span class="num">9</span>Emergency Contact <span class="opt" style="font-weight:400;">Optional</span></legend>
       <div class="grid-2">
         <div class="field">
           <label for="ecName">Name</label>
-          <input type="text" id="ecName" name="Emergency Contact Name">
+          <input type="text" id="ecName" name="Emergency Contact Name" autocomplete="off">
         </div>
         <div class="field">
           <label for="ecRelationship">Relationship</label>
-          <input type="text" id="ecRelationship" name="Emergency Contact Relationship">
+          <input type="text" id="ecRelationship" name="Emergency Contact Relationship" autocomplete="off">
         </div>
       </div>
       <div class="field">
         <label for="ecPhone">Phone number</label>
-        <input type="tel" id="ecPhone" name="Emergency Contact Phone">
+        <input type="tel" id="ecPhone" name="Emergency Contact Phone" autocomplete="off">
       </div>
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">11</span>Payment Information</legend>
+      <legend><span class="num">10</span>Payment Information</legend>
       <div class="field">
         <label>Payment method<span class="req">*</span></label>
         <div class="choice-row">
@@ -700,14 +765,10 @@
           <input type="text" id="otNumber" name="OT Number" placeholder="e.g. Mobile Money or bank transaction reference">
         </div>
       </div>
-      <div class="field">
-        <label for="fileProof">Proof of payment <span class="opt">PDF only</span></label>
-        <input type="file" id="fileProof" name="Proof of Payment" accept=".pdf">
-      </div>
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">12</span>Declaration &amp; Consent</legend>
+      <legend><span class="num">11</span>Declaration &amp; Consent</legend>
       <div class="declaration">"I certify that the information provided is accurate and complete. I understand that providing false information may result in cancellation of my registration."</div>
       <label class="agree"><input type="checkbox" name="Declaration Agreed" value="Yes" required>I agree to the declaration above.<span class="req">*</span></label>
 
@@ -715,7 +776,7 @@
       <label class="agree"><input type="checkbox" name="Data Privacy Consent" value="Yes" required>I consent to the collection and processing of my personal data for course administration, certification, and communication.<span class="req">*</span></label>
 
       <div style="height:14px;"></div>
-      <label class="agree"><input type="checkbox" name="Publicity Consent" value="Yes">I consent that NCOSHA uses my information for publicity.</label>
+      <label class="agree"><input type="checkbox" name="Publicity Consent" value="Yes">I consent that NCOSHA uses my information for publicity purposes.</label>
 
       <div style="height:16px;"></div>
       <label style="font-weight:700;color:var(--navy);font-size:13.5px;">Communication preferences</label>
@@ -736,14 +797,164 @@
         <li>Cancellations 7+ days before intake start are refundable, less an admin fee; later cancellations are non-refundable but transferable to the next cohort.</li>
         <li>The NCOSHA Certificate and Safety Card are issued only once both attendance and assessment requirements are met.</li>
       </ul>
+      <p class="hint" style="margin-top:8px;">This is a short summary. <button type="button" class="link-btn" id="termsModalOpen">Read the full Terms &amp; Conditions</button> before agreeing below.</p>
       <div style="height:12px;"></div>
-      <label class="agree"><input type="checkbox" name="Terms Agreed" value="Yes" required>I have read and agree to the Terms and Conditions.<span class="req">*</span></label>
+      <label class="agree"><input type="checkbox" name="Terms Agreed" value="Yes" required>I have read and agree to the <button type="button" class="link-btn" id="termsModalOpen2">Terms and Conditions</button>.<span class="req">*</span></label>
 
       <div style="height:18px;"></div>
       <label class="agree"><input type="checkbox" name="NCOSHA Newsletter" value="Yes">Yes, send me the NCOSHA email newsletter.</label>
     </fieldset>
 
-    <button type="submit">Submit Registration</button>
+    <div class="modal-overlay" id="termsModalOverlay" role="dialog" aria-modal="true" aria-labelledby="termsModalTitle">
+      <div class="modal-card modal-card-wide">
+        <h3 id="termsModalTitle">NCOSHA Certificate in EHS — Terms and Conditions</h3>
+        <p class="terms-meta">Effective 7 August 2026 · Version 1.0 · Approved by NCOSHA Technical Director · Applies to all Participants, all cohorts and learning modes</p>
+        <div class="terms-scroll">
+          <p class="terms-intro">These Terms and Conditions ("Terms") govern enrollment and participation in the NCOSHA Certificate in Environment, Health and Safety (EHS) course ("the Course") offered by Nichodemus Consult Occupational Safety and Health Administration (NCOSHA) Uganda Limited ("NCOSHA", "the Institution", "we", "us", or "our"). By submitting a registration form, paying course fees, or attending any session of the Course, the individual registering ("the Participant", "you", or "your") confirms that they have read, understood, and agree to be bound by these Terms, together with any policy referenced within them.</p>
+
+          <h4>1. Definitions</h4>
+          <ul>
+            <li><strong>"Course"</strong> means the NCOSHA Certificate in Environmental Health and Safety (EHS) programme, including all modules, practical sessions, assessments and field attachments.</li>
+            <li><strong>"Certificate"</strong> means the NCOSHA Certificate in Environment, Health and Safety issued to a Participant who satisfies the requirements of Clause 7.</li>
+            <li><strong>"Cohort"</strong> means a specific intake of the Course commencing on a defined start date.</li>
+            <li><strong>"Participant"</strong> means any individual who registers, or is registered, for the Course.</li>
+            <li><strong>"Trainer" or "Facilitator"</strong> means any individual engaged by NCOSHA to deliver instruction, assessment or supervision on the Course.</li>
+            <li><strong>"Working Day"</strong> means Monday to Friday, excluding public holidays observed in Uganda.</li>
+          </ul>
+
+          <h4>2. Acceptance of Terms</h4>
+          <p>Enrollment is considered complete, and these Terms take effect, once: (a) the Participant has submitted a fully completed registration form; and (b) the applicable course fees have been paid in full or an alternative payment arrangement has been approved in writing by NCOSHA. Continued participation in any part of the Course constitutes ongoing acceptance of these Terms and of any NCOSHA policy referenced within them.</p>
+
+          <h4>3. Eligibility</h4>
+          <p>To enroll in the Course, a Participant must:</p>
+          <ul>
+            <li>Be at least 18 years of age at the start of the Cohort;</li>
+            <li>Possess sufficient proficiency in English to participate meaningfully in instruction, discussion and assessment; and</li>
+            <li>Meet any additional entry requirements published for the Course at the time of registration.</li>
+          </ul>
+          <p>NCOSHA reserves the right, acting reasonably, to decline or defer an application where these requirements are not met.</p>
+
+          <h4>4. Course Fees and Payment</h4>
+          <p><strong>4.1</strong> Course fees are payable in full before the commencement of the Cohort, unless an alternative payment arrangement has been approved in writing by NCOSHA in advance.</p>
+          <p><strong>4.2</strong> Where fees remain outstanding, NCOSHA reserves the right to: (a) suspend the Participant's access to classes; (b) withhold results of assessments; (c) withhold issuance of the Certificate and Safety Card; or (d) cancel the Participant's enrollment.</p>
+          <p><strong>4.3</strong> Course fees are non-transferable to another individual except with the prior written approval of NCOSHA, and are subject to the refund terms in Clause 5.</p>
+
+          <h4>5. Cancellations, Transfers and Refunds</h4>
+          <p><strong>5.1</strong> A Participant who cancels their registration at least seven (7) calendar days after the Cohort's start date is entitled to an 80% refund, less an administrative processing fee published by NCOSHA at the time of registration.</p>
+          <p><strong>5.2</strong> A Participant who cancels more than seven (7) calendar days before the Cohort's start date is not entitled to a refund.</p>
+          <p><strong>5.3</strong> A Participant may transfer their registration once, free of charge, to the next available Cohort, provided that NCOSHA receives written notice before the current Cohort begins and subject to space availability.</p>
+          <p><strong>5.4</strong> Where NCOSHA cancels or postpones a Cohort, affected Participants shall be offered, at their election, either a full refund or a transfer to the next available Cohort at no additional cost.</p>
+
+          <h4>6. Attendance Requirements</h4>
+          <p><strong>6.1</strong> Regular attendance at all scheduled sessions is a condition of satisfactory completion of the Course.</p>
+          <p><strong>6.2</strong> To qualify for final assessment, a Participant must maintain a minimum attendance rate of ninety percent (90%) of scheduled contact hours.</p>
+          <p><strong>6.3</strong> Late arrival or early departure from a session may be recorded, at the Trainer's discretion, as partial attendance.</p>
+          <p><strong>6.4</strong> NCOSHA reserves the right to withhold a Participant's eligibility for final assessment where the minimum attendance requirement in Clause 6.2 is not met, subject to any documented mitigating circumstances considered under Clause 20.</p>
+
+          <h4>7. Assessment, Resits and Certification</h4>
+          <p><strong>7.1</strong> Participants are required to complete all assessments prescribed for the Course by the deadlines communicated by their Trainer.</p>
+          <p><strong>7.2</strong> To successfully complete the Course, a Participant must achieve both: (a) an overall average assessment score of at least eighty percent (80%); and (b) the minimum attendance rate set out in Clause 6.2.</p>
+          <p><strong>7.3</strong> A Participant who does not meet the requirement in Clause 7.2(a) on first attempt may apply, within fourteen (14) calendar days of receiving their results, for one re-sit opportunity per assessment, subject to a re-sit fee published by NCOSHA at the time.</p>
+          <p><strong>7.4</strong> Certification will not be issued to a Participant who has an outstanding financial obligation to NCOSHA, irrespective of academic performance.</p>
+
+          <h4>8. Certificate Issuance and Reissuance</h4>
+          <p><strong>8.1</strong> A Participant who satisfies the requirements of Clause 7 shall be issued the NCOSHA Certificate in Environmental Health and Safety and the NCOSHA Safety Card.</p>
+          <p><strong>8.2</strong> Certificates are ordinarily issued within a period published by NCOSHA at the time of the Cohort, once a Participant has satisfied all requirements and cleared any outstanding balance.</p>
+          <p><strong>8.3</strong> A lost, damaged, or amended certificate may be reissued on written request, subject to a replacement fee published by NCOSHA at the time of the request.</p>
+
+          <h4>9. Participant Responsibilities</h4>
+          <p>Participants agree to:</p>
+          <ul>
+            <li>Actively participate in all learning activities, discussions and practical exercises;</li>
+            <li>Complete assignments and assessments honestly and independently, save where group work is expressly permitted;</li>
+            <li>Treat Trainers, NCOSHA staff and fellow Participants with courtesy and professionalism;</li>
+            <li>Comply with all applicable health, safety and security requirements during training, including at practical sessions and field visits;</li>
+            <li>Use all training materials solely for personal learning purposes; and</li>
+            <li>Refrain from any conduct that may bring NCOSHA's name or reputation into disrepute.</li>
+          </ul>
+
+          <h4>10. Code of Conduct</h4>
+          <p><strong>10.1</strong> Participants are expected to maintain respectful, professional behaviour throughout the Course.</p>
+          <p><strong>10.2</strong> The following conduct is strictly prohibited and may result in suspension or removal from the Course without refund:</p>
+          <ul>
+            <li>Harassment or discrimination of any kind;</li>
+            <li>Abusive, threatening or discriminatory language;</li>
+            <li>Disruptive behaviour that materially interferes with the learning of others;</li>
+            <li>Violence or threats of violence;</li>
+            <li>Attendance under the influence of alcohol or drugs; and</li>
+            <li>Deliberate damage to NCOSHA's training facilities, equipment or materials.</li>
+          </ul>
+          <p><strong>10.3</strong> Where NCOSHA reasonably believes a Participant has breached this Clause, it may suspend the Participant's participation pending investigation, and may subsequently remove the Participant from the Course without refund, following the process in Clause 20 where applicable.</p>
+
+          <h4>11. Academic Integrity</h4>
+          <p>Plagiarism, cheating, impersonation, or any other form of academic dishonesty in an assessment is a serious breach of these Terms. Where NCOSHA finds, on the balance of probabilities, that a Participant has engaged in academic dishonesty, it may, depending on severity: require the assessment to be resubmitted or resat; record a failing grade for the assessment concerned; or remove the Participant from the Course without refund.</p>
+
+          <h4>12. Training Materials and Intellectual Property</h4>
+          <p><strong>12.1</strong> All course materials, manuals, presentations, videos, assessment instruments and other learning resources provided as part of the Course remain the intellectual property of NCOSHA, or of the relevant third-party licensor, unless expressly stated otherwise.</p>
+          <p><strong>12.2</strong> Participants shall not reproduce, distribute, sell, publicly display, modify or otherwise share any training materials, in whole or in part, without NCOSHA's prior written permission.</p>
+          <p><strong>12.3</strong> This Clause 12 survives completion, withdrawal, or termination of a Participant's enrollment.</p>
+
+          <h4>13. Photography, Media and Testimonials</h4>
+          <p>NCOSHA may, from time to time, photograph or record training sessions for internal quality assurance, accreditation evidence, or promotional purposes, including on NCOSHA's website and social media. A Participant who does not wish to be included in promotional photography or recordings must notify NCOSHA in writing before the start of their Cohort, and NCOSHA will take reasonable steps to accommodate that request.</p>
+
+          <h4>14. Health, Safety and Wellbeing</h4>
+          <p><strong>14.1</strong> Participants must comply with all occupational safety and health instructions issued by NCOSHA staff and Trainers, particularly during practical sessions, site visits, and field demonstrations.</p>
+          <p><strong>14.2</strong> Participants are responsible for disclosing to NCOSHA, in advance, any medical condition that may require reasonable accommodation during practical or field-based activities.</p>
+          <p><strong>14.3</strong> Failure to comply with safety instructions may result in removal from the practical activity concerned, without prejudice to the Participant's standing in the theoretical components of the Course, at NCOSHA's discretion.</p>
+
+          <h4>15. Privacy and Data Protection</h4>
+          <p><strong>15.1</strong> NCOSHA collects and processes Participant personal information solely for purposes connected with course administration, certification, communication, quality assurance, and legal or regulatory compliance.</p>
+          <p><strong>15.2</strong> NCOSHA will not share Participant personal information with third parties except:</p>
+          <ul>
+            <li>Where required by law or a competent regulatory authority;</li>
+            <li>Where necessary to verify certification, for example with an employer or accrediting body; or</li>
+            <li>With the Participant's prior consent.</li>
+          </ul>
+          <p><strong>15.3</strong> NCOSHA will retain Participant records for as long as reasonably necessary to fulfil the purposes above, including to respond to future certificate verification requests.</p>
+          <p><strong>15.4</strong> Participants must likewise treat any personal information they learn about fellow Participants during the Course as confidential and must not disclose or misuse it.</p>
+
+          <h4>16. Non-Discrimination and Equal Opportunity</h4>
+          <p>NCOSHA is committed to providing a learning environment free from discrimination on the basis of gender, disability, religion, ethnicity, or any other status protected under the laws of Uganda. Reasonable accommodations for Participants with disabilities will be considered on written request made at the time of registration or as early as reasonably possible thereafter.</p>
+
+          <h4>17. Course Changes, Postponement and Cancellation by NCOSHA</h4>
+          <p>NCOSHA reserves the right to revise course content, amend the training schedule, substitute a Trainer, change the training venue, or modify assessment methods, provided that any such change does not materially and adversely affect the Course's intended learning outcomes. Where NCOSHA postpones or cancels a Cohort entirely, Clause 5.4 applies.</p>
+
+          <h4>18. Force Majeure</h4>
+          <p>NCOSHA shall not be liable for any delay, postponement, or cancellation of training resulting from circumstances beyond its reasonable control, including but not limited to natural disasters, government directives, disease outbreaks, civil unrest, power or internet outages, or other unforeseen events. Where reasonably practicable, NCOSHA will notify affected Participants promptly and will apply Clause 5.4 to any Cohort so affected.</p>
+
+          <h4>19. Limitation of Liability and Indemnity</h4>
+          <p><strong>19.1</strong> To the fullest extent permitted by Ugandan law, NCOSHA shall not be liable for any indirect, incidental or consequential loss arising from a Participant's enrollment in or participation in the Course.</p>
+          <p><strong>19.2</strong> Participants remain responsible for safeguarding their own personal belongings while on NCOSHA premises or at any training venue, and NCOSHA accepts no liability for loss, theft or damage to personal property.</p>
+          <p><strong>19.3</strong> Nothing in these Terms limits or excludes liability that cannot lawfully be limited or excluded, including liability for death or personal injury caused by NCOSHA's negligence.</p>
+
+          <h4>20. Complaints, Appeals and Grievance Procedure</h4>
+          <p><strong>20.1</strong> A Participant who is dissatisfied with any aspect of the Course, including an assessment result, may submit a written complaint or appeal to NCOSHA within seven (7) working days of the incident or result concerned.</p>
+          <p><strong>20.2</strong> NCOSHA will acknowledge receipt of a complaint within three (3) working days and will investigate and communicate its decision within a reasonable period, ordinarily not exceeding fifteen (15) working days.</p>
+          <p><strong>20.3</strong> Complaints and appeals may be submitted in writing to the NCOSHA Head Office or via the contact details set out at the end of these Terms.</p>
+
+          <h4>21. General Provisions</h4>
+          <p><strong>21.1 Severability:</strong> if any clause of these Terms is found to be invalid or unenforceable by a court of competent jurisdiction, the remaining clauses shall continue in full force and effect.</p>
+          <p><strong>21.2 Entire Agreement:</strong> these Terms, together with the registration form and any policy expressly referenced within them, constitute the entire agreement between NCOSHA and the Participant regarding the Course, superseding any prior discussions or representations.</p>
+          <p><strong>21.3 Notices:</strong> any formal notice under these Terms shall be in writing and delivered to NCOSHA's Head Office address or the Participant's registered contact details, as applicable.</p>
+
+          <h4>22. Governing Law and Dispute Resolution</h4>
+          <p>These Terms are governed by the laws of the Republic of Uganda. Any dispute arising out of or in connection with these Terms shall first be addressed through good-faith negotiation between the parties before either party refers the matter to the courts of competent jurisdiction in Uganda.</p>
+
+          <h4>23. Amendments</h4>
+          <p>NCOSHA reserves the right to revise these Terms and Conditions from time to time. The version published and in effect at the time of a Participant's enrollment shall govern that Participant's enrollment, unless a change is required by law or is otherwise communicated to enrolled Participants in writing.</p>
+
+          <h4>Participant Declaration</h4>
+          <p>By checking "I have read and agree to the Terms and Conditions" below, you confirm that: you have read and understood these Terms and Conditions in full; you agree to comply with all NCOSHA policies and procedures referenced within them; you understand the attendance and assessment requirements for certification set out in Clauses 6 and 7; and you acknowledge that failure to comply with these Terms may result in suspension or withdrawal from the Course without refund, as set out above.</p>
+
+          <div class="terms-contact">Contact for Complaints and Notices — NCOSHA Head Office, Uganda | +256 392 176 249 · +256 706 181 337 · +256 777 828 818</div>
+        </div>
+        <div class="modal-actions">
+          <button type="button" class="btn-save" id="termsModalClose">Close</button>
+        </div>
+      </div>
+    </div>
+
+
     <p class="footnote">You'll see an on-screen confirmation immediately, and a copy of your answers by email.</p>
   </form>
 
@@ -797,11 +1008,30 @@ function wireToggle(name, map) {
     });
   });
 }
-wireToggle('status', { 'Employee': 'employmentSection' });
+// Employment details now open as a popup the moment "Employee" is chosen,
+// instead of living in their own numbered section.
+const employmentModal = document.getElementById('employmentModalOverlay');
+function openEmploymentModal() { employmentModal.classList.add('show'); }
+function closeEmploymentModal() { employmentModal.classList.remove('show'); }
 document.querySelectorAll('input[data-toggle="status"]').forEach(r => {
   r.addEventListener('change', () => {
-    document.getElementById('employmentSection').classList.toggle('show', r.value === 'Employee' && r.checked);
+    if (r.value === 'Employee' && r.checked) openEmploymentModal();
   });
+});
+document.getElementById('employmentModalDone').addEventListener('click', closeEmploymentModal);
+employmentModal.addEventListener('click', (e) => {
+  if (e.target === employmentModal) closeEmploymentModal();
+});
+
+// Full Terms & Conditions popup
+const termsModal = document.getElementById('termsModalOverlay');
+function openTermsModal() { termsModal.classList.add('show'); }
+function closeTermsModal() { termsModal.classList.remove('show'); }
+document.getElementById('termsModalOpen').addEventListener('click', openTermsModal);
+document.getElementById('termsModalOpen2').addEventListener('click', openTermsModal);
+document.getElementById('termsModalClose').addEventListener('click', closeTermsModal);
+termsModal.addEventListener('click', (e) => {
+  if (e.target === termsModal) closeTermsModal();
 });
 document.querySelectorAll('input[data-toggle="mode"]').forEach(r => {
   r.addEventListener('change', () => {
@@ -827,6 +1057,7 @@ document.querySelectorAll('input[data-toggle="payment"]').forEach(r => {
 
 // How did you hear about this training — conditional "specify" fields
 const heardMap = {
+  'School': 'heardSchool',
   'Alumni': 'heardAlumni',
   'Training event / conference / exhibition': 'heardEvent',
   'Referral': 'heardReferral',

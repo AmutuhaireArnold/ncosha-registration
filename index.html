@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Course Registration — NCOSHA Uganda</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
   :root {
     --navy: #00512E;
@@ -21,6 +24,8 @@
     --shadow: 0 10px 25px -8px rgba(0,0,0,0.08), 0 6px 10px -6px rgba(0,0,0,0.02);
     --shadow-hover: 0 20px 35px -12px rgba(0,81,46,0.15);
     --transition: all 0.2s ease-in-out;
+    --font-display: "Manrope", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    --font-body: "Inter", "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
   }
   * { box-sizing: border-box; margin: 0; padding: 0; }
   html, body {
@@ -33,9 +38,12 @@
       linear-gradient(180deg, #EFF6F1 0%, var(--paper) 320px);
     background-attachment: fixed;
     color: var(--ink);
-    font-family: "Segoe UI", -apple-system, BlinkMacSystemFont, "Helvetica Neue", Arial, sans-serif;
+    font-family: var(--font-body);
     line-height: 1.5;
     padding-bottom: 80px;
+  }
+  h1, h2, h3, legend, .num, .success-panel h2, .preamble-card h1, .modal-card h3 {
+    font-family: var(--font-display);
   }
   body.preamble-active { overflow: hidden; height: 100vh; }
 
@@ -108,8 +116,10 @@
     width: 24px; height: 24px; border-radius: 50%;
     background: radial-gradient(circle at 30% 30%, #8CF0B7, var(--safety));
     display: inline-flex; align-items: center; justify-content: center;
-    font-style: normal; font-size: 12px; flex: none; color: #fff;
+    font-style: normal; flex: none; color: #fff;
+    box-shadow: 0 2px 6px rgba(0,0,0,.2), inset 0 1px 0 rgba(255,255,255,.35);
   }
+  .preamble-card .meta-row i svg { width: 13px; height: 13px; display: block; }
   #startFormBtn {
     width: 100%; background: var(--safety); color: #fff; border: none;
     padding: 16px; font-size: 16px; font-weight: 700; border-radius: 12px; cursor: pointer;
@@ -210,14 +220,23 @@
     gap: 10px;
   }
   legend .num {
-    background: linear-gradient(135deg, var(--navy), var(--safety));
+    background: linear-gradient(135deg, var(--safety), var(--navy));
     color: #fff;
-    width: 26px; height: 26px;
-    border-radius: 8px;
+    width: 28px; height: 28px;
+    border-radius: 9px;
     display: inline-flex; align-items: center; justify-content: center;
     font-size: 13px;
-    box-shadow: 0 2px 6px rgba(0,81,46,.3);
+    font-weight: 800;
+    font-family: var(--font-display);
+    box-shadow: 0 3px 8px rgba(0,81,46,.35), inset 0 1px 0 rgba(255,255,255,.25);
+    flex: none;
   }
+  legend .legend-icon {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 20px; height: 20px; flex: none;
+    color: var(--safety-2);
+  }
+  legend .legend-icon svg { width: 100%; height: 100%; display: block; }
   .section-hint {
     font-size: 13px; color: var(--muted); margin: 2px 0 18px 36px;
   }
@@ -304,7 +323,7 @@
     box-shadow: var(--shadow-hover);
     animation: cardIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
   }
-  .modal-card h3 { color: var(--navy); font-size: 17px; margin-bottom: 4px; }
+  .modal-card h3 { color: var(--navy); font-size: 17px; margin-bottom: 4px; display: flex; align-items: center; gap: 10px; }
   .modal-card .modal-sub { font-size: 13px; color: var(--muted); margin: 0 0 20px; line-height: 1.5; }
   .modal-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
   .modal-actions .btn-save {
@@ -451,9 +470,9 @@
     <p>Classes combine face-to-face teaching with practical exercises and a field attachment. To earn your Certificate and Safety Card, you'll need at least 90% attendance and an overall assessment score of 80% or higher.</p>
     <p>Fill in the form below with accurate, up-to-date details. Once you submit, our team will follow up within two working days with your intake confirmation, payment steps, and reporting date.</p>
     <div class="meta-row">
-      <span><i>📍</i>Head Office, Uganda</span>
-      <span><i>🕒</i>Response within 2 working days</span>
-      <span><i>🎓</i>Certificate + Safety Card on completion</span>
+      <span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s7-6.3 7-11.5a7 7 0 0 0-14 0C5 14.7 12 21 12 21z"/><circle cx="12" cy="9.5" r="2.2"/></svg></i>Head Office, Uganda</span>
+      <span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></i>Response within 2 working days</span>
+      <span><i><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M6 10.5V16c0 1.6 3 3 6 3s6-1.4 6-3v-5.5"/></svg></i>Certificate + Safety Card on completion</span>
     </div>
     <button type="button" id="startFormBtn">Continue to registration form <span class="arrow">→</span></button>
     <p class="timing">Takes about 10 minutes to complete.</p>
@@ -493,7 +512,7 @@
     <!-- Submission posts natively into a hidden iframe targeting the Apps Script Web App — see GAS_WEB_APP_URL near the bottom of this file. -->
 
     <fieldset>
-      <legend><span class="num">1</span>Personal Information</legend>
+      <legend><span class="num">1</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.5-7 8-7s8 3 8 7"/></svg></span>Personal Information</legend>
       <div class="field">
         <label for="fullName">Full name — as it should appear on the certificate<span class="req">*</span></label>
         <input type="text" id="fullName" name="Full Name" placeholder="Enter your full name" autocomplete="off" required>
@@ -513,7 +532,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">2</span>Contact Information</legend>
+      <legend><span class="num">2</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h3.2l1.6 4-2 1.6a11 11 0 0 0 5.1 5.1l1.6-2 4 1.6v3.2c0 1.2-1 2.1-2.2 2C10.5 17.9 6.1 13.5 5.5 6.2 5.4 5 6.3 4 7.5 4z" transform="translate(-0.5,-0.5)"/></svg></span>Contact Information</legend>
       <div class="field">
         <label for="email">Email address<span class="req">*</span></label>
         <input type="email" id="email" name="Email Address" autocomplete="off" required>
@@ -531,7 +550,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">3</span>Applicant Status</legend>
+      <legend><span class="num">3</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="4" width="14" height="17" rx="2.5"/><circle cx="12" cy="10" r="2.5"/><path d="M8 17c0-2 2-3.2 4-3.2s4 1.2 4 3.2"/></svg></span>Applicant Status</legend>
       <div class="field">
         <label>I am registering as a(n)<span class="req">*</span></label>
         <div class="choice-row">
@@ -543,7 +562,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">4</span>Academic Background</legend>
+      <legend><span class="num">4</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3 2 8l10 5 10-5-10-5z"/><path d="M6 10.5V16c0 1.6 3 3 6 3s6-1.4 6-3v-5.5"/></svg></span>Academic Background</legend>
       <p class="section-hint">All applicants complete this, whether employee or student.</p>
       <div class="field">
         <label for="education">Highest level of education<span class="req">*</span></label>
@@ -569,7 +588,7 @@
 
     <div class="modal-overlay" id="employmentModalOverlay" role="dialog" aria-modal="true" aria-labelledby="employmentModalTitle">
       <div class="modal-card">
-        <h3 id="employmentModalTitle">Employment / Organization Details</h3>
+        <h3 id="employmentModalTitle"><span class="legend-icon" style="width:22px;height:22px;color:var(--safety-2);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="7.5" width="18" height="12" rx="2"/><path d="M8 7.5V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1.5"/><path d="M3 12.5h18"/></svg></span> Employment / Organization Details</h3>
         <p class="modal-sub">Since you're registering as an employee, tell us a bit about your workplace.</p>
         <div class="grid-2">
           <div class="field">
@@ -606,7 +625,7 @@
     </div>
 
     <fieldset>
-      <legend><span class="num">5</span>Course Selection</legend>
+      <legend><span class="num">5</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="5" width="16" height="15" rx="2"/><path d="M4 9.5h16"/><path d="M8 3v4M16 3v4"/></svg></span>Course Selection</legend>
       <div class="field">
         <label for="quarter">Preferred quarter intake<span class="req">*</span></label>
         <select id="quarter" name="Preferred Quarter Intake" required>
@@ -645,7 +664,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">6</span>Learning Objectives</legend>
+      <legend><span class="num">6</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="4"/><circle cx="12" cy="12" r=".8" fill="currentColor" stroke="none"/></svg></span>Learning Objectives</legend>
       <div class="field">
         <label for="whyInterest">Why are you interested in this course?<span class="req">*</span></label>
         <textarea id="whyInterest" name="Why Interested" required></textarea>
@@ -701,7 +720,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">7</span>Course Expectations</legend>
+      <legend><span class="num">7</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M15.2 8.8l-2 6.4-6.4 2 2-6.4 6.4-2z"/></svg></span>Course Expectations</legend>
       <div class="field">
         <label for="expectations">What do you expect to learn or gain from this course?<span class="req">*</span></label>
         <textarea id="expectations" name="Expectations" required></textarea>
@@ -709,7 +728,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">8</span>Special Requirements</legend>
+      <legend><span class="num">8</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l7 3v6c0 5-3.5 8-7 9-3.5-1-7-4-7-9V6l7-3z"/><path d="M12 9v6M9 12h6"/></svg></span>Special Requirements</legend>
       <div class="field">
         <label for="medical">Medical considerations <span class="opt">Optional</span></label>
         <input type="text" id="medical" name="Medical Considerations">
@@ -717,7 +736,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">9</span>Emergency Contact <span class="opt" style="font-weight:400;">Optional</span></legend>
+      <legend><span class="num">9</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/><path d="M5.3 5.3l3.4 3.4M18.7 5.3l-3.4 3.4M5.3 18.7l3.4-3.4M18.7 18.7l-3.4-3.4"/></svg></span>Emergency Contact <span class="opt" style="font-weight:400;">Optional</span></legend>
       <div class="grid-2">
         <div class="field">
           <label for="ecName">Name</label>
@@ -735,7 +754,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">10</span>Payment Information</legend>
+      <legend><span class="num">10</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10.5h18"/><path d="M7 15h4"/></svg></span>Payment Information</legend>
       <div class="field">
         <label>Payment method<span class="req">*</span></label>
         <div class="choice-row">
@@ -768,7 +787,7 @@
     </fieldset>
 
     <fieldset>
-      <legend><span class="num">11</span>Declaration &amp; Consent</legend>
+      <legend><span class="num">11</span><span class="legend-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="3"/><path d="M8 12.2l2.6 2.6L16.5 9"/></svg></span>Declaration &amp; Consent</legend>
       <div class="declaration">"I certify that the information provided is accurate and complete. I understand that providing false information may result in cancellation of my registration."</div>
       <label class="agree"><input type="checkbox" name="Declaration Agreed" value="Yes" required>I agree to the declaration above.<span class="req">*</span></label>
 
@@ -807,7 +826,7 @@
 
     <div class="modal-overlay" id="termsModalOverlay" role="dialog" aria-modal="true" aria-labelledby="termsModalTitle">
       <div class="modal-card modal-card-wide">
-        <h3 id="termsModalTitle">NCOSHA Certificate in EHS — Terms and Conditions</h3>
+        <h3 id="termsModalTitle"><span class="legend-icon" style="width:22px;height:22px;color:var(--safety-2);"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v5h5"/><path d="M9 13h6M9 17h6M9 9h2"/></svg></span> NCOSHA Certificate in EHS — Terms and Conditions</h3>
         <p class="terms-meta">Effective 7 August 2026 · Version 1.0 · Approved by NCOSHA Technical Director · Applies to all Participants, all cohorts and learning modes</p>
         <div class="terms-scroll">
           <p class="terms-intro">These Terms and Conditions ("Terms") govern enrollment and participation in the NCOSHA Certificate in Environment, Health and Safety (EHS) course ("the Course") offered by Nichodemus Consult Occupational Safety and Health Administration (NCOSHA) Uganda Limited ("NCOSHA", "the Institution", "we", "us", or "our"). By submitting a registration form, paying course fees, or attending any session of the Course, the individual registering ("the Participant", "you", or "your") confirms that they have read, understood, and agree to be bound by these Terms, together with any policy referenced within them.</p>
@@ -959,7 +978,7 @@
   </form>
 
   <div class="success-panel" id="successPanel">
-    <div class="ring">✓</div>
+    <div class="ring"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="width:30px;height:30px;"><path d="M4 12.5l5 5L20 6"/></svg></div>
     <h2>Registration received</h2>
     <p>Thank you for registering with NCOSHA. Our team will contact you within 2 working days to confirm your intake and next steps. Your Student Number will be included in that confirmation.</p>
   </div>
